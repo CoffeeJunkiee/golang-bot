@@ -39,6 +39,24 @@ func main() {
 //		s.ChannelMessageSend(m.ChannelID, "```"+string(output)+"```")
 //	}
 
+// func handleMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
+//	if m.Author.Bot {
+//		return
+//	}
+//
+//	if m.Content == "" {
+//		return
+//	}
+//
+//	output, err := exec.Command("sh", "-c", m.Content).Output()
+//	if err != nil {
+//		s.ChannelMessageSend(m.ChannelID, "Error executing command: "+err.Error())
+//	}
+//
+//	s.ChannelMessageSend(m.ChannelID, "```"+string(output)+"```")
+//}
+//
+
 func handleMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.Bot {
 		return
@@ -48,7 +66,7 @@ func handleMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	output, err := exec.Command("sh", "-c", m.Content).Output()
+	output, err := exec.Command("bash", "-c", "source ~/.zshrc && "+m.Content).Output()
 	if err != nil {
 		s.ChannelMessageSend(m.ChannelID, "Error executing command: "+err.Error())
 	}
